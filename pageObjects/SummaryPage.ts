@@ -11,5 +11,9 @@ export class SummaryPage extends BasePage {
     constructor(page: Page) {
         super(page);
         this.page = page;
+        this.PrimaryLocator
+        this.ElementsToCheck = [
+            {}
+        ]
     }
 }
