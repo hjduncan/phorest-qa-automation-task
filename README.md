@@ -41,10 +41,6 @@ You can chain these commands to run on multiple browsers like so: npx playwright
 
 This will run a single test file, pass in the name of the test file that you want to run
 
-# npx playwright test -g "add a todo item" --project firefox --headed
-
-This will run a test in Firefox browser for a single test in headed mode
-
 # Scripts
 
 In the case of this particular project, I have created a script to run a specific suite of e2e tests as specified by the task. Simply execute the following command in the terminal: 
