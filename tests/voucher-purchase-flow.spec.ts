@@ -8,7 +8,7 @@ test.describe('Boilerplate Tests', () => {
     await page.goto('https://gift-cards.phorest.com/salons/demous#');
   });
 
-  test('Test 1 - ', async ({ page }) => {
+  test('Test 1 - Preset Value, Self Recipient', async ({ page }) => {
     const voucherSelectionPage = await VoucherSelectionPage.create(page);
     await voucherSelectionPage.completeVoucherSelection({
         giftCardValue: '200',
@@ -23,7 +23,7 @@ test.describe('Boilerplate Tests', () => {
     // const confirmationPage = await ConfirmationPage.create(page);
   });
 
-  test('Test 2 - ', async ({ page }) => {
+  test('Test 2 - Custom Value, Someone Else Recipient', async ({ page }) => {
     const voucherSelectionPage = await VoucherSelectionPage.create(page);
     await voucherSelectionPage.completeVoucherSelection({
         giftCardValue: 'custom',
