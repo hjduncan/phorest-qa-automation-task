@@ -10,34 +10,48 @@ test.describe('Boilerplate Tests', () => {
 
   test('Test 1 - Preset Value, Self Recipient', async ({ page }) => {
     const voucherSelectionPage = await VoucherSelectionPage.create(page);
-    await voucherSelectionPage.completeVoucherSelection({
-        giftCardValue: '200',
-        formOption: 'self',
+    const voucherDetails = {
+        giftCardValue: '200' as const,
+        formOption: 'self' as const,
         yourEmail: 'test@example.com',
         firstName: 'Test',
         lastName: 'User'
-    });
+    }
+    await voucherSelectionPage.completeVoucherSelection(voucherDetails);
     await voucherSelectionPage.CheckoutButton.click();
 
     const summaryPage = await SummaryPage.create(page);
+    await summaryPage.confirmVoucherDetails({
+        value: voucherDetails.giftCardValue,
+        purchaserEmail: voucherDetails.yourEmail,
+        recipientEmail: voucherDetails.yourEmail
+    });
+    await summaryPage.ConfirmationButton.click();
     // const confirmationPage = await ConfirmationPage.create(page);
   });
 
   test('Test 2 - Custom Value, Someone Else Recipient', async ({ page }) => {
     const voucherSelectionPage = await VoucherSelectionPage.create(page);
-    await voucherSelectionPage.completeVoucherSelection({
-        giftCardValue: 'custom',
+    const voucherDetails = {
+        giftCardValue: 'custom' as const,
         customValue: '275',
-        formOption: 'someoneElse',
+        formOption: 'someoneElse' as const,
         yourEmail: 'test@example.com',
         firstName: 'Test',
         lastName: 'User',
         recipientEmail: 'recipient@example.com',
         message: 'Happy Birthday!'
-    });
+    }
+    await voucherSelectionPage.completeVoucherSelection(voucherDetails);
     await voucherSelectionPage.CheckoutButton.click();
 
     const summaryPage = await SummaryPage.create(page);
+    await summaryPage.confirmVoucherDetails({
+        value: voucherDetails.customValue,
+        purchaserEmail: voucherDetails.yourEmail,
+        recipientEmail: voucherDetails.recipientEmail
+    });
+    await summaryPage.ConfirmationButton.click();
     // const confirmationPage = await ConfirmationPage.create(page);
   });
 });

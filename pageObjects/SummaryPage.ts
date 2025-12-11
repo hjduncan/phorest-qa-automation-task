@@ -70,4 +70,26 @@ export class SummaryPage extends BasePage {
         await newPage.validateElements(newPage.ElementsToCheck);
         return newPage;
     }
+
+    public async confirmVoucherDetails(details: {
+        value: string;
+        purchaserEmail: string;
+        recipientEmail?: string;
+    }){
+        const { value, purchaserEmail, recipientEmail } = details;
+        const checks = [
+            { locator: this.ValueAmount, expected: value },
+            { locator: this.ReceiptEmail, expected: purchaserEmail },
+            { locator: this.RecipientEmail, expected: recipientEmail || purchaserEmail }
+        ];
+        for (const check of checks) {
+            const text = await check.locator.textContent();
+            if (check.locator === this.ValueAmount){
+                expect(text?.trim()).toEqual(`$${check.expected}.00`);
+            } else {
+                expect(text?.trim()).toEqual(check.expected);
+            }
+        }
+        expect(await this.ProcessingFeeAmount.textContent()).toContain('$0.00');
+    }
 }
