@@ -37,7 +37,7 @@ export class VoucherSelectionPage extends BasePage {
         this.GiftCardValueContainer = this.PrimaryLocator.locator('.container').nth(1).locator('[data-amount-salon-id="demous"]');
         this.GiftCardValueHeader = this.GiftCardValueContainer.locator('span.font-semibold').filter({ hasText: 'Gift Card Value' });
         this.GiftCardValueOption = this.GiftCardValueContainer.locator('ul li');
-        this.GiftCardCustomValueInput = this.GiftCardValueContainer.locator('ul li input[data-controller="amount"]');
+        this.GiftCardCustomValueInput = this.GiftCardValueContainer.locator('ul li input[data-target="amount.otherInput"]');
         this.FormContainer = this.PrimaryLocator.locator('.container').nth(1).locator('[data-controller="email"]');
         this.FormOptionHeader = this.FormContainer.locator('nav a');
         this.FormYourEmailInputHeader = this.FormContainer.locator('.tabs-content .flex.items-end').filter({ hasText: 'Your Email Address' });
@@ -49,7 +49,7 @@ export class VoucherSelectionPage extends BasePage {
         this.FormRecipientEmailInputHeader = this.FormContainer.locator('.tabs-content .flex.items-end').filter({ hasText: 'Recipient Email' });
         this.FormRecipientEmailInput = this.FormContainer.locator('.tabs-content input[placeholder="gift card will be sent here ..."]');
         this.MessageInputHeader = this.FormContainer.locator('.tabs-content .flex.items-end').filter({ hasText: 'Message for Recipient' });
-        this.MessageInput = this.FormContainer.locator('.tabs-content input[placeholder="type your message here eg. Hi Mom, Happy Birthday! Love Karen"]');
+        this.MessageInput = this.FormContainer.locator('.tabs-content textarea[placeholder="type your message here eg. Hi Mom, Happy Birthday! Love Karen"]');
         this.GiftCardSection = this.PrimaryLocator.locator('.container').nth(0);
         this.GiftCardImage = this.GiftCardSection.locator('svg.voucher');
         this.GiftCardValueDisplay = this.GiftCardSection.locator('.hidden .flex.justify-between').nth(0);
@@ -78,5 +78,50 @@ export class VoucherSelectionPage extends BasePage {
         const newPage = new VoucherSelectionPage(page);
         await newPage.validateElements(newPage.ElementsToCheck);
         return newPage;
+    }
+
+    private async selectGiftCardValue(value: '200' | '250' | '300' | 'custom', customValue?: string) {
+        if (value === 'custom' && customValue) {
+            await this.GiftCardValueOption.locator('[id="optionOther"]').click();
+            await this.safeFill(this.GiftCardCustomValueInput, customValue);
+        } else {
+            const optionLocator = this.GiftCardValueOption.locator(`[data-display-amount="${value}"]`)
+            await optionLocator.click();
+        }
+    }
+
+    private async selectFormOption(option: 'self' | 'someoneElse') {
+        if (option === 'self') {
+            await this.FormOptionHeader.getByText('Send to me').click();
+        } else {
+            await this.FormOptionHeader.getByText('Send to someone else').click();
+        }
+    }
+
+    private async completeFormField(field: Locator, value: string) {
+        await this.safePressSequential(field, value);
+    }
+
+    public async completeVoucherSelection(options: {
+        giftCardValue: '200' | '250' | '300' | 'custom',
+        customValue?: string,
+        formOption: 'self' | 'someoneElse',
+        yourEmail: string,
+        firstName: string,
+        lastName: string,
+        recipientEmail?: string,
+        message?: string
+    }){
+       await this.selectFormOption(options.formOption);
+       await this.selectGiftCardValue(options.giftCardValue, options.customValue);
+       await this.completeFormField(this.FormYourEmailInput, options.yourEmail);
+       await this.completeFormField(this.FormFirstNameInput, options.firstName);
+       await this.completeFormField(this.FormLastNameInput, options.lastName);
+       if (options.formOption === 'someoneElse' && options.recipientEmail) {
+           await this.completeFormField(this.FormRecipientEmailInput, options.recipientEmail);
+       }
+       if (options.message) {
+           await this.completeFormField(this.MessageInput, options.message);
+       }
     }
 }

@@ -29,7 +29,7 @@ export class SummaryPage extends BasePage {
     constructor(page: Page) {
         super(page);
         this.page = page;
-        this.PrimaryLocator = page.locator('[data-page-title="Summary"] [data-application-checkout-title="Buy a Gift Card"] [data-controller="checkout"] .container [data-controller="confirm"]');
+        this.PrimaryLocator = page.locator('[data-page-title="Summary"] [data-application-checkout-title="Buy a Gift Card"] .container [data-controller="confirm"]');
         this.SummaryHeader = this.PrimaryLocator.locator('h2');
         this.EditButton = this.PrimaryLocator.locator('button').filter({ hasText: 'Edit' });
         this.ValueLabel = this.PrimaryLocator.locator('p').filter({ hasText: 'Value of gift card' });

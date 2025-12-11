@@ -10,5 +10,34 @@ test.describe('Boilerplate Tests', () => {
 
   test('Test 1 - ', async ({ page }) => {
     const voucherSelectionPage = await VoucherSelectionPage.create(page);
+    await voucherSelectionPage.completeVoucherSelection({
+        giftCardValue: '200',
+        formOption: 'self',
+        yourEmail: 'test@example.com',
+        firstName: 'Test',
+        lastName: 'User'
+    });
+    await voucherSelectionPage.CheckoutButton.click();
+
+    const summaryPage = await SummaryPage.create(page);
+    // const confirmationPage = await ConfirmationPage.create(page);
+  });
+
+  test('Test 2 - ', async ({ page }) => {
+    const voucherSelectionPage = await VoucherSelectionPage.create(page);
+    await voucherSelectionPage.completeVoucherSelection({
+        giftCardValue: 'custom',
+        customValue: '275',
+        formOption: 'someoneElse',
+        yourEmail: 'test@example.com',
+        firstName: 'Test',
+        lastName: 'User',
+        recipientEmail: 'recipient@example.com',
+        message: 'Happy Birthday!'
+    });
+    await voucherSelectionPage.CheckoutButton.click();
+
+    const summaryPage = await SummaryPage.create(page);
+    // const confirmationPage = await ConfirmationPage.create(page);
   });
 });
