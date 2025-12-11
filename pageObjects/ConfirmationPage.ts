@@ -16,4 +16,10 @@ export class ConfirmationPage extends BasePage {
             {}
         ]
     }
+
+    static async create(page: Page): Promise<ConfirmationPage> {
+        const newPage = new ConfirmationPage(page);
+        await newPage.validateElements(newPage.ElementsToCheck);
+        return newPage;
+    }
 }

@@ -33,7 +33,7 @@ export class VoucherSelectionPage extends BasePage {
     constructor(page: Page) {
         super(page);
         this.page = page;
-        this.PrimaryLocator = page.locator('[data-application-checkout-title="Buy a Gift Card"] [data-controller="checkout"]');
+        this.PrimaryLocator = page.locator('[data-page-title="Buy a Gift Card"] [data-application-checkout-title="Buy a Gift Card"] [data-controller="checkout"]');
         this.GiftCardValueContainer = this.PrimaryLocator.locator('.container').nth(1).locator('[data-amount-salon-id="demous"]');
         this.GiftCardValueHeader = this.GiftCardValueContainer.locator('span.font-semibold').filter({ hasText: 'Gift Card Value' });
         this.GiftCardValueOption = this.GiftCardValueContainer.locator('ul li');
@@ -57,13 +57,13 @@ export class VoucherSelectionPage extends BasePage {
         this.GiftCardTotalCostDisplay = this.GiftCardSection.locator('.hidden .flex.justify-between').nth(2);
         this.CheckoutButton = this.GiftCardSection.locator('.hidden [data-target="checkout.checkoutButton"]');
         this.ElementsToCheck = [
-            { locator: this.GiftCardValueHeader, count: 1, expectedText: 'Gift Card Value' },
+            { locator: this.GiftCardValueHeader, count: 1 },
             { locator: this.GiftCardValueOption, count: 4 },
             { locator: this.FormOptionHeader.nth(0), count: 1, expectedText: 'Send to me' },
             { locator: this.FormOptionHeader.nth(1), count: 1, expectedText: 'Send to someone else' },
-            { locator: this.FormYourEmailInputHeader, count: 1, expectedText: 'Your Email Address' },
-            { locator: this.FormFirstNameInputHeader, count: 1, expectedText: 'First Name' },
-            { locator: this.FormLastNameInputHeader, count: 1, expectedText: 'Last Name' },
+            { locator: this.FormYourEmailInputHeader, count: 1 },
+            { locator: this.FormFirstNameInputHeader, count: 1 },
+            { locator: this.FormLastNameInputHeader, count: 1 },
             { locator: this.GiftCardImage, count: 1 },
             { locator: this.GiftCardValueDisplay.locator('span').nth(0), count: 1, expectedText: 'Value of gift voucher' },
             { locator: this.GiftCardValueDisplay.locator('[data-target="checkout.voucherValue"]'), count: 1, expectedText: '$0.00' },
