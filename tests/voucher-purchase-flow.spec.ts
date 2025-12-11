@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { VoucherSelectionPage } from '../pageObjects/VoucherSelectionPage';
 import { SummaryPage } from '../pageObjects/SummaryPage';
 import { ConfirmationPage } from '../pageObjects/ConfirmationPage';
@@ -27,7 +27,16 @@ test.describe('Boilerplate Tests', () => {
         recipientEmail: voucherDetails.yourEmail
     });
     await summaryPage.ConfirmationButton.click();
-    // const confirmationPage = await ConfirmationPage.create(page);
+    await summaryPage.enterPaymentDetails({
+        cardNumber: '4111111111111111',
+        expiryDate: '12/26',
+        cvc: '999'
+    });
+    await summaryPage.SubmitButton.click();
+    const confirmationPage = await ConfirmationPage.create(page);
+    await confirmationPage.confirmPurchaseDetails(voucherDetails.giftCardValue);
+    await confirmationPage.DoneButton.click();
+    expect(page.url()).toBe('https://gift-cards.phorest.com/salons/demous');
   });
 
   test('Test 2 - Custom Value, Someone Else Recipient', async ({ page }) => {
@@ -52,6 +61,15 @@ test.describe('Boilerplate Tests', () => {
         recipientEmail: voucherDetails.recipientEmail
     });
     await summaryPage.ConfirmationButton.click();
-    // const confirmationPage = await ConfirmationPage.create(page);
+    await summaryPage.enterPaymentDetails({
+        cardNumber: '4111111111111111',
+        expiryDate: '12/26',
+        cvc: '999'
+    });
+    await summaryPage.SubmitButton.click();
+    const confirmationPage = await ConfirmationPage.create(page);
+    await confirmationPage.confirmPurchaseDetails(voucherDetails.customValue);
+    await confirmationPage.DoneButton.click();
+    expect(page.url()).toBe('https://gift-cards.phorest.com/salons/demous');
   });
 });

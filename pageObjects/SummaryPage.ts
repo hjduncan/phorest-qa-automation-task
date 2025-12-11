@@ -22,7 +22,9 @@ export class SummaryPage extends BasePage {
     readonly PaymentDetailsSection: Locator;
     readonly PaymentDetailsHeader: Locator;
     readonly PurchaseAgreementContainer: Locator;
-    readonly StripePaymentDetailsField: Locator;
+    readonly StripeCardNumberField: Locator;
+    readonly StripeExpiryDateField: Locator;
+    readonly StripeCvcField: Locator;
     readonly SubmitButton: Locator;
     readonly ElementsToCheck: { locator: Locator; count: number; expectedText?: string }[];
 
@@ -43,10 +45,12 @@ export class SummaryPage extends BasePage {
         this.RecipientLabel = this.PrimaryLocator.locator('p').filter({ hasText: 'Send gift card to' });
         this.RecipientEmail = this.PrimaryLocator.locator('p#confirm-recipient-email');
         this.ConfirmationButton = this.PrimaryLocator.locator('button[data-action="confirm#confirmAction"]');
-        this.PaymentDetailsSection = page.locator('[data-page-title="Checkout"] [data-application-checkout-title="Buy a Gift Card"] [data-controller="checkout"] .container [data-controller="stripe-purchase"]');
+        this.PaymentDetailsSection = page.locator('[data-controller="stripe-purchase"]');
         this.PaymentDetailsHeader = this.PaymentDetailsSection.locator('.text-center').nth(0);
         this.PurchaseAgreementContainer = this.PaymentDetailsSection.locator('.text-center').nth(1);
-        this.StripePaymentDetailsField = this.PaymentDetailsSection.locator('[data-controller="payment-method-tabs"] #stripe-form input');
+        this.StripeCardNumberField = this.page.frameLocator('iframe[name^="__privateStripeFrame"]').nth(0).locator('input[name="cardnumber"]');
+        this.StripeExpiryDateField = this.page.frameLocator('iframe[name^="__privateStripeFrame"]').nth(0).locator('input[name="exp-date"]');
+        this.StripeCvcField = this.page.frameLocator('iframe[name^="__privateStripeFrame"]').nth(0).locator('input[name="cvc"]');
         this.SubmitButton = this.PaymentDetailsSection.locator('button[data-action="stripe-purchase#confirmPayment"]');
         this.ElementsToCheck = [
             { locator: this.SummaryHeader, count: 1, expectedText: 'Summary' },
@@ -91,5 +95,11 @@ export class SummaryPage extends BasePage {
             }
         }
         expect(await this.ProcessingFeeAmount.textContent()).toContain('$0.00');
+    }
+
+    public async enterPaymentDetails(paymentDetails: { cardNumber: string, expiryDate: string, cvc: string }) {
+        await this.StripeCardNumberField.fill(paymentDetails.cardNumber);
+        await this.StripeExpiryDateField.fill(paymentDetails.expiryDate);
+        await this.StripeCvcField.fill(paymentDetails.cvc);
     }
 }

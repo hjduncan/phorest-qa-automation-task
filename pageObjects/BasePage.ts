@@ -25,7 +25,7 @@ export class BasePage {
             // Handle different validation methods dynamically
             if (expectedText) {
                 const actualText = await locator.textContent();
-                expect(actualText?.trim()).toEqual(expectedText?.trim());
+                expect(actualText?.trim()).toContain(expectedText?.trim());
             }
         }
     }

@@ -31,11 +31,12 @@ export class ConfirmationPage extends BasePage {
         this.GiftCardValueAmount = this.PrimaryLocator.locator('p').nth(5);
         this.PurchaseValueHeader = this.PrimaryLocator.locator('p').nth(6);
         this.PurchaseValueAmount = this.PrimaryLocator.locator('p').nth(7);
-        this.DoneButton = this.PrimaryLocator.locator('button[data-action="application#doneAction"]');
+        this.DoneButton = this.page.locator('button[data-action="application#doneAction"]');
         this.ElementsToCheck = [
             { locator: this.GreenCheckmarkIcon, count: 1 },
             { locator: this.ConfirmationHeader, count: 1, expectedText: 'Payment accepted, thank you!' },
-            { locator: this.ConfirmationMessage, count: 1 , expectedText: ' Your gift card has been sent.  We\'ve also sent you a receipt.' }, 
+            { locator: this.ConfirmationMessage, count: 1 , expectedText: 'Your gift card has been sent.' }, 
+            { locator: this.ConfirmationMessage, count: 1 , expectedText: 'We\'ve also sent you a receipt.' },
             { locator: this.GiftCardCodeLabel, count: 1, expectedText: 'Your gift card code is:' },
             { locator: this.GiftCardCodeNumber, count: 1 },
             { locator: this.GiftCardValueHeader, count: 1, expectedText: 'Your gift card value is:' },
@@ -50,5 +51,10 @@ export class ConfirmationPage extends BasePage {
         const newPage = new ConfirmationPage(page);
         await newPage.validateElements(newPage.ElementsToCheck);
         return newPage;
+    }
+
+    public async confirmPurchaseDetails(value: string){
+        expect(await this.GiftCardValueAmount.textContent()).toContain(`$${value}.00`);
+        expect(await this.PurchaseValueAmount.textContent()).toContain(`$${value}.00`);
     }
 }
