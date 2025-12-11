@@ -6,7 +6,7 @@ export default defineConfig({
   expect: { timeout: 5000 },
 
   use: {
-    baseURL: 'https://gift-cards.phorest.com/salons/demous',
+    baseURL: 'https://gift-cards.phorest.com/salons/demous#',
     headless: true,
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
