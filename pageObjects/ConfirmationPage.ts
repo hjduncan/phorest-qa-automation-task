@@ -5,6 +5,7 @@ export class ConfirmationPage extends BasePage {
 
     // Locators
     readonly page: Page
+    readonly PrimaryLocator: Locator;
 
     constructor(page: Page) {
         super(page);

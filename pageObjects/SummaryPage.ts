@@ -5,6 +5,8 @@ export class SummaryPage extends BasePage {
 
     // Locators
     readonly page: Page
+    readonly PrimaryLocator: Locator;
+    readonly ElementsToCheck: { locator: Locator; count: number; expectedText?: string }[];
 
     constructor(page: Page) {
         super(page);
