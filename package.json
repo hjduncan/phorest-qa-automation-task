@@ -1,6 +1,7 @@
 {
   "scripts": {
-    
+    "voucher-purchase-flow-headed": "npx playwright test tests/voucher-purchase-flow.spec.ts --project=chromium --headed",
+    "voucher-purchase-flow-headless": "npx playwright test tests/voucher-purchase-flow.spec.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",

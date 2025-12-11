@@ -8,7 +8,7 @@ test.describe('Boilerplate Tests', () => {
     await page.goto('https://gift-cards.phorest.com/salons/demous#');
   });
 
-  test('Test 1 - Preset Value, Self Recipient', async ({ page }) => {
+  test('Test 1 - Preset Value, Self Recipient',  async ({ page }) => {
     const voucherSelectionPage = await VoucherSelectionPage.create(page);
     const voucherDetails = {
         giftCardValue: '200' as const,

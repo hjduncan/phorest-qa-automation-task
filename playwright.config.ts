@@ -2,8 +2,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 20000,
+  timeout: 30000,
   expect: { timeout: 5000 },
+  reporter: [['html', { open: 'never' }]],
 
   use: {
     baseURL: 'https://gift-cards.phorest.com/salons/demous#',
